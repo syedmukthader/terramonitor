@@ -15,7 +15,11 @@ provider "aws" {
 }
 
 resource "aws_instance" "server" {
+<<<<<<< HEAD
   ami                    = "ami-0989fb15ce71ba39e"
+=======
+  ami                    = "ami-053b0d53c279acc90"
+>>>>>>> ea3dcd4c2e14de1ba599ae213806634a3ddf4d6b
   instance_type          = "t2.micro"
   key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.mainsg.id]
@@ -35,6 +39,7 @@ resource "aws_iam_instance_profile" "deploy" {
   name = "deploy"
   role = "EC2-ECR"
 }
+<<<<<<< HEAD
 
 resource "aws_security_group" "mainsg" {
   egress = [
@@ -72,6 +77,58 @@ resource "aws_security_group" "mainsg" {
       security_groups  = []
       self             = false
       to_port          = 22
+=======
+resource "aws_security_group" "mainsg" {  
+  ingress = [
+    {
+      description      = "HTTP"
+      from_port        = 80
+      to_port          = 80
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]  
+      ipv6_cidr_blocks = []
+      prefix_list_ids = []
+      security_groups = []
+      self = false
+    },
+  {
+      description      = "HTTPS"
+      from_port        = 443
+      to_port          = 443
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]  
+      ipv6_cidr_blocks = []
+      prefix_list_ids = []
+      security_groups = []
+      self = false      
+  },
+
+    {
+      description      = "SSH"
+      from_port        = 22
+      to_port          = 22
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]  
+      ipv6_cidr_blocks = []
+      prefix_list_ids = []
+      security_groups = []
+      self = false      
+    }
+  ]
+
+
+  egress = [
+    {
+      description      = "for all outgoing traffics"
+      from_port        = 0
+      to_port          = 0
+      protocol         = "-1"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = ["::/0"]
+      prefix_list_ids = []
+      security_groups = []
+      self = false
+>>>>>>> ea3dcd4c2e14de1ba599ae213806634a3ddf4d6b
     }
   ]
 }
