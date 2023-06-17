@@ -15,11 +15,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "server" {
-<<<<<<< HEAD
   ami                    = "ami-0989fb15ce71ba39e"
-=======
-  ami                    = "ami-053b0d53c279acc90"
->>>>>>> ea3dcd4c2e14de1ba599ae213806634a3ddf4d6b
   instance_type          = "t2.micro"
   key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.mainsg.id]
@@ -39,45 +35,6 @@ resource "aws_iam_instance_profile" "deploy" {
   name = "deploy"
   role = "EC2-ECR"
 }
-<<<<<<< HEAD
-
-resource "aws_security_group" "mainsg" {
-  egress = [
-    {
-      cidr_blocks      = ["0.0.0.0/0"]
-      description      = ""
-      from_port        = 0
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      protocal         = "-1"
-      security_groups  = []
-      self             = false
-      to_port          = 0
-    }
-  ]
-  ingress = [
-    {
-      cidr_blocks      = ["0.0.0.0/0"]
-      description      = ""
-      from_port        = 22
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      protocol         = "tcp"
-      security_groups  = []
-      self             = false
-      to_port          = 22
-    },
-    {
-      cidr_blocks      = ["0.0.0.0/0"]
-      description      = ""
-      from_port        = 22
-      ipv6_cidr_blocks = []
-      prefix_list_ids  = []
-      protocol         = "tcp"
-      security_groups  = []
-      self             = false
-      to_port          = 22
-=======
 resource "aws_security_group" "mainsg" {  
   ingress = [
     {
@@ -115,8 +72,6 @@ resource "aws_security_group" "mainsg" {
       self = false      
     }
   ]
-
-
   egress = [
     {
       description      = "for all outgoing traffics"
@@ -128,7 +83,6 @@ resource "aws_security_group" "mainsg" {
       prefix_list_ids = []
       security_groups = []
       self = false
->>>>>>> ea3dcd4c2e14de1ba599ae213806634a3ddf4d6b
     }
   ]
 }
