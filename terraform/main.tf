@@ -35,9 +35,9 @@ resource "aws_iam_instance_profile" "deploy" {
   name = "deploy"
   role = "EC2-ECR"
 }
-resource "aws_security_group" "mainsg" {
-  egress = [
-    {
+resource "aws_security_group" "mainsg" {  
+egress = [
+  {
       cidr_blocks      = ["0.0.0.0/0"]
       description      = ""
       from_port        = 0
@@ -47,10 +47,11 @@ resource "aws_security_group" "mainsg" {
       security_groups  = []
       self             = false
       to_port          = 0
-    }
+  }
   ]
+
   ingress = [
-    {
+  {
       cidr_blocks      = ["0.0.0.0/0"]
       description      = ""
       from_port        = 22
@@ -62,7 +63,11 @@ resource "aws_security_group" "mainsg" {
       to_port          = 22
     },
     {
-      cidr_blocks      = ["0.0.0.0/0"]
+    description      = "for all outgoing traffics"
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
       description      = ""
       from_port        = 22
       ipv6_cidr_blocks = []
@@ -71,7 +76,7 @@ resource "aws_security_group" "mainsg" {
       security_groups  = []
       self             = false
       to_port          = 22
-    }
+  }
   ]
 }
 
