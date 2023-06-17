@@ -1,6 +1,6 @@
 name: CI/CD using Terraform
-'on':
-  workflow_dispatch:
+on:
+  workflow_dispatch: {}
   push:
     branches:
       - Complete-CI/CD-with-Terraform-AWS
