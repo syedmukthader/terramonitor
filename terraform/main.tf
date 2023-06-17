@@ -1,13 +1,13 @@
 terraform {
-required_providers {
-  aws = {
-    source = "hashicorp/aws"
-    version = "~>4.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~>4.0"
+    }
   }
-}
- backend "s3"{
-   key = "aws/ec2-deploy/terraform.tfstate"
- }
+  backend "s3" {
+    key = "aws/ec2-deploy/terraform.tfstate"
+  }
 }
 
 provider "aws" {
@@ -15,11 +15,11 @@ provider "aws" {
 }
 
 resource "aws_instance" "server" {
-  ami = "ami-0989fb15ce71ba39e"
-  instance_type = "t2.micro"
-  key_name = aws_key_pair.deployer.key_name
+  ami                    = "ami-0989fb15ce71ba39e"
+  instance_type          = "t2.micro"
+  key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.mainsg.id]
-  iam_instance_profile = ""
+  iam_instance_profile   = ""
   connection {
     type        = "ssh"
     host        = self.public_ip
@@ -35,53 +35,52 @@ resource "aws_iam_instance_profile" "deploy" {
   name = "deploy"
   role = "EC2-ECR"
 }
-
-  resource "aws_security_group" "mainsg" {
+resource "aws_security_group" "mainsg" {
   egress = [
     {
-    cidr_blocks = ["0.0.0.0/0"]
-    description = ""
-    from_port = 0
-    ipv6_cidr_blocks = []
-    prefix_list_ids = []
-    protocal = "-1"
-    security_groups = []
-    self = false
-    to_port = 0
+      cidr_blocks      = ["0.0.0.0/0"]
+      description      = ""
+      from_port        = 0
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      protocal         = "-1"
+      security_groups  = []
+      self             = false
+      to_port          = 0
     }
   ]
   ingress = [
     {
-      cidr_blocks = ["0.0.0.0/0"]
-      description = ""
-      from_port = 22
+      cidr_blocks      = ["0.0.0.0/0"]
+      description      = ""
+      from_port        = 22
       ipv6_cidr_blocks = []
-      prefix_list_ids = []
-      protocol = "tcp"
-      security_groups = []
-      self = false
-      to_port = 22
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 22
     },
     {
-      cidr_blocks = ["0.0.0.0/0"]
-      description = ""
-      from_port = 22
+      cidr_blocks      = ["0.0.0.0/0"]
+      description      = ""
+      from_port        = 22
       ipv6_cidr_blocks = []
-      prefix_list_ids = []
-      protocol = "tcp"
-      security_groups = []
-      self = false
-      to_port = 22
+      prefix_list_ids  = []
+      protocol         = "tcp"
+      security_groups  = []
+      self             = false
+      to_port          = 22
     }
-    ]
+  ]
 }
 
 resource "aws_key_pair" "deployer" {
-  key_name = var.key_name
+  key_name   = var.key_name
   public_key = var.public_key
 }
 
 output "instance_public_ip" {
-  value = aws_instance.server.public_ip
+  value     = aws_instance.server.public_ip
   sensitive = true
 }
